@@ -1,0 +1,42 @@
+{
+  "source": "马头琴.obj",
+  "source_vertices": 3527261,
+  "source_triangles": 6763159,
+  "rotation": [
+    [
+      -0.2626690949720881,
+      -0.9625790530045654,
+      0.06668218100346263
+    ],
+    [
+      -0.21087399909706278,
+      -0.010169663892826503,
+      -0.9774603492935756
+    ],
+    [
+      0.9415609927409676,
+      -0.27081016349675907,
+      -0.2003116379432372
+    ]
+  ],
+  "center": [
+    -0.9133630990982056,
+    -0.8503280878067017,
+    -11.628575325012207
+  ],
+  "error": 0.0002024173445533961,
+  "vertices": 109226,
+  "triangles": 179995,
+  "glb_bytes": 7447828,
+  "source_bytes": 797726506,
+  "texture_source": "马头琴.jpg",
+  "texture_size": [
+    4096,
+    4096
+  ],
+  "texture_available": true,
+  "material_file_found": false,
+  "note": "带UV的OBJ经meshoptimizer纹理感知减面；保留UV接缝，JPEG由8192缩至4096。MTL未找到，已重建基础色贴图材质。按高度分区观察，不宣称独立部件分割。原始文件未修改。",
+  "reduction_percent": 99.07,
+  "display_rotation_after_pca": "180 degrees around X"
+}

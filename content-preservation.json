@@ -1,0 +1,92 @@
+{
+  "source": "https://jingcai-ctrl.github.io/Morinkhuur/",
+  "sections": [
+    {
+      "id": "history",
+      "title": "历史脉络",
+      "originalTextBlocks": 117,
+      "originalImages": 1,
+      "url": "reader.html?topic=history"
+    },
+    {
+      "id": "culture",
+      "title": "文化与故事",
+      "originalTextBlocks": 15,
+      "originalImages": 0,
+      "url": "reader.html?topic=culture"
+    },
+    {
+      "id": "music-classification",
+      "title": "音乐类别",
+      "originalTextBlocks": 119,
+      "originalImages": 5,
+      "url": "reader.html?topic=music-classification"
+    },
+    {
+      "id": "anatomy",
+      "title": "马头琴结构与器型",
+      "originalTextBlocks": 39,
+      "originalImages": 4,
+      "url": "reader.html?topic=anatomy"
+    },
+    {
+      "id": "craftsmanship",
+      "title": "制作工艺",
+      "originalTextBlocks": 111,
+      "originalImages": 24,
+      "url": "reader.html?topic=craftsmanship"
+    },
+    {
+      "id": "patterns",
+      "title": "装饰纹样",
+      "originalTextBlocks": 37,
+      "originalImages": 11,
+      "url": "reader.html?topic=patterns"
+    },
+    {
+      "id": "instrument-types",
+      "title": "马头琴器型",
+      "originalTextBlocks": 41,
+      "originalImages": 11,
+      "url": "reader.html?topic=instrument-types"
+    },
+    {
+      "id": "performance",
+      "title": "演奏",
+      "originalTextBlocks": 21,
+      "originalImages": 3,
+      "url": "reader.html?topic=performance"
+    },
+    {
+      "id": "heritage",
+      "title": "传承与发展",
+      "originalTextBlocks": 61,
+      "originalImages": 0,
+      "url": "reader.html?topic=heritage"
+    },
+    {
+      "id": "application",
+      "title": "应用场景",
+      "originalTextBlocks": 40,
+      "originalImages": 5,
+      "url": "reader.html?topic=application"
+    },
+    {
+      "id": "epilogue",
+      "title": "终章",
+      "originalTextBlocks": 39,
+      "originalImages": 1,
+      "url": "reader.html?topic=epilogue"
+    }
+  ],
+  "extraData": [
+    "patternsData",
+    "genes",
+    "geneCategories",
+    "geneDescriptions",
+    "craftSteps",
+    "songData"
+  ],
+  "omittedContent": [],
+  "note": "原文及图像不改写；新增的仅为导航、搜索、返回与阅读控件。原站两处空白装饰段不作为独立内容页。"
+}
