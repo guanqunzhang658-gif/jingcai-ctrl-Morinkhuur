@@ -2,15 +2,34 @@ import * as T from './vendor/three.module.js';
 import {OrbitControls} from './vendor/OrbitControls.js';
 const $=s=>document.querySelector(s),status=$('#status');
 try {
-// Minimal reader for the tightly packed, untextured GLB emitted by scripts/replace_obj.py.
+// Minimal reader for this project's tightly packed, textured GLB models.
 // This is deliberately not a general-purpose glTF importer.
-const report=await (await fetch('./assets/optimization-report.json')).json();
-const response=await fetch('./assets/morin-optimized.glb?v=textured-scan');if(!response.ok)throw Error('模型下载失败');
-const buffer=await response.arrayBuffer(),dv=new DataView(buffer);if(dv.getUint32(0,true)!==0x46546c67)throw Error('模型格式错误');
+const lite=new URLSearchParams(location.search).get('quality')!=='full' && (location.pathname.endsWith('embed.html')||matchMedia('(max-width:800px)').matches);
+const modelFile=lite?'morin-mobile.glb':'morin-optimized.glb';
+status.textContent='正在连接'+(lite?'轻量':'高清')+'三维模型…';
+const controller=new AbortController();let stallTimer,overallTimer;
+const resetStall=()=>{clearTimeout(stallTimer);stallTimer=setTimeout(()=>controller.abort(),25000);};
+resetStall();overallTimer=setTimeout(()=>controller.abort(),180000);
+let buffer;
+try{
+ const response=await fetch('./assets/'+modelFile+'?v=mobile-fix-2',{signal:controller.signal});
+ if(!response.ok)throw Error('模型文件请求失败（'+response.status+'）');
+ const total=Number(response.headers.get('content-length'))||0;
+ if(response.body&&response.body.getReader){
+  const reader=response.body.getReader(),chunks=[];let received=0;
+  while(true){const item=await reader.read();if(item.done)break;resetStall();chunks.push(item.value);received+=item.value.length;
+   const progress=total?' · '+Math.min(99,Math.floor(received/total*100))+'%':'';
+   status.textContent='正在下载'+(lite?'轻量':'高清')+'模型'+progress+'（'+(received/1048576).toFixed(2)+' MB）';
+  }
+  const combined=new Uint8Array(received);let offset=0;for(const chunk of chunks){combined.set(chunk,offset);offset+=chunk.length;}buffer=combined.buffer;
+ }else buffer=await response.arrayBuffer();
+}finally{clearTimeout(stallTimer);clearTimeout(overallTimer);}
+status.textContent='模型下载完成，正在生成三维画面…';
+const dv=new DataView(buffer);if(dv.getUint32(0,true)!==0x46546c67)throw Error('模型格式错误');
 const jsonSize=dv.getUint32(12,true),g=JSON.parse(new TextDecoder().decode(new Uint8Array(buffer,20,jsonSize))),binOffset=28+jsonSize;
 function read(i){const a=g.accessors[i],v=g.bufferViews[a.bufferView],ArrayType={5126:Float32Array,5123:Uint16Array,5125:Uint32Array}[a.componentType];return new ArrayType(buffer,binOffset+(v.byteOffset||0)+(a.byteOffset||0),a.count*(a.type==='VEC3'?3:a.type==='VEC2'?2:1));}
 const host=$('#stage'),scene=new T.Scene(),camera=new T.PerspectiveCamera(35,1,.01,100),renderer=new T.WebGLRenderer({antialias:true,alpha:true});
-renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.outputColorSpace=T.SRGBColorSpace;host.replaceChildren(renderer.domElement);renderer.domElement.tabIndex=0;renderer.domElement.setAttribute('aria-label','数字马头琴三维模型，方向键旋转，加减键缩放，R复位');
+renderer.setPixelRatio(Math.min(devicePixelRatio,lite?1.5:2));renderer.outputColorSpace=T.SRGBColorSpace;host.replaceChildren(renderer.domElement);renderer.domElement.tabIndex=0;renderer.domElement.setAttribute('aria-label','数字马头琴三维模型，方向键旋转，加减键缩放，R复位');
 let texture=null;
 if(g.images?.length){const img=g.images[0],v=g.bufferViews[img.bufferView];const blob=new Blob([new Uint8Array(buffer,binOffset+(v.byteOffset||0),v.byteLength)],{type:img.mimeType});const url=URL.createObjectURL(blob);try{texture=await new T.TextureLoader().loadAsync(url);texture.flipY=false;texture.colorSpace=T.SRGBColorSpace;texture.anisotropy=Math.min(renderer.capabilities.getMaxAnisotropy(),8);}finally{URL.revokeObjectURL(url);}}
 const model=new T.Group();scene.add(model);const objects=[];
@@ -37,6 +56,6 @@ $('#reset').onclick=reset;$('#auto').onclick=()=>setAuto(!auto);$('#wire').oncli
 document.querySelectorAll('[data-focus]').forEach(b=>b.onclick=()=>b.dataset.focus==='all'?reset():select(b.dataset.focus));document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>{setAuto(false);const d=camera.position.distanceTo(controls.target);camera.position.copy(controls.target).add(new T.Vector3(...(b.dataset.view==='front'?[0,0,d]:[d,0,0])));controls.update();render();});
 let down;renderer.domElement.addEventListener('pointerdown',e=>{down=[e.clientX,e.clientY];});renderer.domElement.addEventListener('pointerup',e=>{if(!down||Math.hypot(e.clientX-down[0],e.clientY-down[1])>5)return;const rect=renderer.domElement.getBoundingClientRect(),ray=new T.Raycaster();ray.setFromCamera(new T.Vector2((e.clientX-rect.left)/rect.width*2-1,-(e.clientY-rect.top)/rect.height*2+1),camera);const hit=ray.intersectObjects(objects)[0];if(hit){const ratio=(hit.point.y-worldBounds.min.y)/height;select(ratio>2/3?'upper':ratio>1/3?'middle':'lower',false);marker.position.copy(hit.point);marker.visible=true;render();}});
 renderer.domElement.addEventListener('keydown',e=>{if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','+','=','-','r','R'].includes(e.key))return;e.preventDefault();if(/[rR]/.test(e.key)){reset();return;}if(['+','=','-'].includes(e.key)){zoom(e.key==='-'?1.15:.87);return;}setAuto(false);const s=new T.Spherical().setFromVector3(camera.position.clone().sub(controls.target));if(e.key==='ArrowLeft')s.theta-=.12;if(e.key==='ArrowRight')s.theta+=.12;if(e.key==='ArrowUp')s.phi-=.12;if(e.key==='ArrowDown')s.phi+=.12;s.makeSafe();camera.position.setFromSpherical(s).add(controls.target);controls.update();render();});
-const resize=new ResizeObserver(()=>{const w=Math.max(1,host.clientWidth),h=Math.max(1,host.clientHeight);renderer.setSize(w,h);camera.aspect=w/h;camera.updateProjectionMatrix();render();});resize.observe(host);reset();status.textContent='模型已就绪 · 可拖动旋转';document.body.dataset.modelReady='true';
+const resize=new ResizeObserver(()=>{const w=Math.max(1,host.clientWidth),h=Math.max(1,host.clientHeight);renderer.setSize(w,h);camera.aspect=w/h;camera.updateProjectionMatrix();render();});resize.observe(host);reset();status.textContent=(lite?'轻量模型':'高清模型')+'已就绪 · 可拖动旋转';document.body.dataset.modelReady='true';document.body.dataset.modelQuality=lite?'lite':'full';window.dispatchEvent(new Event('morin-ready'));
 addEventListener('pagehide',()=>{cancelAnimationFrame(frame);resize.disconnect();controls.dispose();objects.forEach(o=>{o.geometry.dispose();o.material.dispose();});marker.geometry.dispose();marker.material.dispose();texture?.dispose();renderer.dispose();},{once:true});
-}catch(e){status.textContent='无法显示三维模型：'+e.message+'。可前往完整三维观察室重试。';const host=$('#stage');if(host){host.replaceChildren();const poster=document.createElement('img');poster.src='../img/morin-khuur-watercolor.png';poster.alt='马头琴结构插画';poster.style.cssText='width:100%;height:100%;object-fit:contain';host.append(poster);}document.querySelectorAll('button').forEach(b=>b.disabled=true);console.error(e);}
+}catch(e){document.body.dataset.modelError='viewer';status.textContent=e.name==='AbortError'?'网络下载超时，请重新载入。':'无法显示三维模型：'+e.message;window.dispatchEvent(new Event('morin-error'));const host=$('#stage');if(host){host.replaceChildren();const poster=document.createElement('img');poster.src='../img/morin-khuur-watercolor.png';poster.alt='马头琴结构插画';poster.style.cssText='width:100%;height:100%;object-fit:contain';host.append(poster);}document.querySelectorAll('#reset,#auto,#zoom-in,#zoom-out,#wire,[data-focus],[data-view]').forEach(b=>b.disabled=true);console.error(e);}

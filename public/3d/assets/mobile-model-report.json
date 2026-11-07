@@ -1,0 +1,12 @@
+{
+  "bytes": 1003444,
+  "triangles": 23999,
+  "vertices": 22139,
+  "relativeError": 0.0003202853840775788,
+  "texture": [
+    1024,
+    1024
+  ],
+  "source": "morin-optimized.glb",
+  "note": "移动端额外减面版本，保留UV和照片贴图；高精度网页模型保持不变。"
+}
