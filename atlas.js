@@ -1,7 +1,7 @@
 (() => {
 const data=window.CONTENT;if(!data)return;const skip=new Set(['hero','dashboard','blank-page-1','blank-page-2']);const sections=data.sections.filter(s=>!skip.has(s.id));
 const escape=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const text=html=>{const el=document.createElement('div');el.innerHTML=html;el.querySelectorAll('script,style,svg').forEach(n=>n.remove());return el.textContent.replace(/\s+/g,' ').trim();};
+const text=html=>{const el=document.createElement('template');el.innerHTML=html;el.content.querySelectorAll('script,style,svg').forEach(n=>n.remove());return el.content.textContent.replace(/\s+/g,' ').trim();};
 const index=sections.map(s=>({title:s.title,group:'章节全文',body:text(s.html),url:'chapters/'+s.id+'.html'}));
 for(const [key,topic,group] of [['samples','instrument-types','器型资料'],['craftSteps','craftsmanship','制作工艺'],['music','music-classification','音乐资料'],['application','application','应用场景'],['history','history','历史资料']]){(data[key]||[]).forEach((x,i)=>index.push({title:x.title,group,body:(x.texts||[x.desc]).filter(Boolean).join(' '),url:`detail.html?topic=${topic}&item=${i}`}));}
 Object.values(data.patternsData||{}).forEach((p,i)=>index.push({title:p.name,group:'纹样资料',body:[p.meaning,p.case,p.location].join(' '),url:'detail.html?topic=patterns&item='+i}));

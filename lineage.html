@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>马头琴传承人图谱 · 演奏与制作的谱系结构</title>
+<style>
+:root{--bg:#241f18;--paper:#28231c;--ink:#eee5d5;--muted:#c0b29b;--dim:#a99b85;--gold:#d7b87d;--line:#a18b6440;--serif:'Songti SC','STSong','SimSun',serif;--sans:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:13px/1.7 var(--sans);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.ht-header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px clamp(20px,4vw,56px);border-bottom:1px solid var(--line);flex-wrap:wrap}
+.brand{display:flex;flex-direction:column;line-height:1.3}
+.brand strong{font:normal 22px/1.2 var(--serif);letter-spacing:3px}
+.brand span{font-size:10px;color:var(--muted);letter-spacing:1px;margin-top:3px}
+.ht-header nav{display:flex;gap:18px;font-size:12px;flex-wrap:wrap}
+.ht-header nav a{color:var(--gold)}
+main{max-width:1240px;margin:0 auto;padding:clamp(24px,4vw,48px) clamp(20px,4vw,56px) 56px}
+.kicker{font-size:10px;letter-spacing:2px;color:var(--muted);margin:0 0 10px}
+h1{font:normal clamp(28px,3vw,40px)/1.3 var(--serif);letter-spacing:2px;margin:0 0 14px}
+.lead{font-size:13.5px;line-height:1.95;color:#c9bda6;max-width:820px;margin:0}
+.stats{display:flex;gap:38px;flex-wrap:wrap;margin:22px 0 0;padding:0}
+.stats div{display:flex;flex-direction:column;gap:2px}
+.stats dt{font-size:10px;color:var(--muted);letter-spacing:1px;margin:0}
+.stats dd{margin:0;font:17px/1.4 var(--serif)}
+.tabs{display:flex;gap:6px;margin:30px 0 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.tabs button{background:none;border:0;color:var(--muted);font:12px/1 var(--sans);letter-spacing:1px;padding:14px 18px;cursor:pointer;border-bottom:2px solid transparent}
+.tabs button[aria-selected=true]{color:var(--ink);border-bottom-color:var(--gold)}
+.tabs button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.legend{display:flex;gap:18px;flex-wrap:wrap;margin:18px 0 0;font-size:11px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:7px}
+.lg{width:24px;height:0;border-top:2px solid #d8d0c2;display:inline-block}
+.lg.dash{border-top-style:dashed;border-top-color:#c48e3c}
+.lg.dot{border-top-style:dotted;border-top-color:#c48e3c;border-top-width:3px}
+.lg.node{width:9px;height:9px;border-radius:50%;background:var(--ink);border:0}
+.panel[hidden]{display:none}
+.timeline{position:relative;margin-top:26px}
+.spine{position:relative;height:2px;background:linear-gradient(90deg,#5a4a34,#c48e3c);margin:34px 0 0}
+.spine i{position:absolute;top:-4px;width:10px;height:10px;border-radius:50%;background:#241f18;border:2px solid #b89b67}
+.periods{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:18px;margin-top:22px}
+.panel-b .periods{grid-template-columns:repeat(4,minmax(0,1fr))}
+.period{border-top:1px solid var(--line);padding-top:14px;min-width:0}
+.period h3{font:normal 17px/1.4 var(--serif);margin:0 0 2px;letter-spacing:1px}
+.period .range{font-size:10px;letter-spacing:1px;color:var(--muted)}
+.cards{display:flex;flex-direction:column;gap:10px;margin-top:14px}
+.card{background:var(--paper);border:1px solid var(--line);padding:12px 13px;position:relative}
+.card .name{font:normal 15px/1.45 var(--serif);display:block}
+.card .life{font-size:10px;color:var(--muted);margin-left:6px;letter-spacing:.5px}
+.card .role{display:block;font-size:11px;line-height:1.7;color:#b9ab93;margin-top:5px}
+.card .tag{display:inline-block;font-size:9px;letter-spacing:1px;color:var(--gold);border:1px solid #a18b6466;padding:1px 6px;margin-top:8px}
+.card.muted{opacity:.62;border-style:dashed}
+.card.muted .name{font-size:13px}
+.period-note{font-size:10.5px;line-height:1.8;color:var(--dim);border-left:1px solid var(--line);padding-left:9px;margin-top:12px}
+.break{grid-column:1/-1;display:flex;align-items:center;gap:12px;margin:22px 0 0;font-size:11px;color:#d7b87d}
+.break:before,.break:after{content:"";height:0;flex:1;border-top:1px dashed #c48e3c66}
+.shifts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-top:26px}
+.shift{background:var(--paper);border:1px solid var(--line);padding:18px}
+.shift .no{font:26px/1 var(--serif);color:#a18b64}
+.shift h3{font:normal 17px/1.4 var(--serif);margin:10px 0 4px}
+.shift .range{font-size:10px;color:var(--muted);letter-spacing:1px}
+.shift ul{list-style:none;margin:12px 0 0;padding:0;font-size:11.5px;color:#b9ab93;line-height:1.9}
+.shift li:before{content:"·";color:var(--gold);margin-right:7px}
+.summary{margin:26px 0 0;padding:16px 18px;border-left:2px solid var(--gold);background:#2a241c;font-size:12.5px;line-height:1.9;color:#d9cbb4}
+.source{margin-top:30px;border-top:1px solid var(--line);padding-top:18px;font-size:11px;line-height:1.9;color:var(--dim)}
+.source a{color:var(--gold);border-bottom:1px solid #a18b6466}
+@media(max-width:1000px){.periods{grid-template-columns:repeat(3,minmax(0,1fr))}.panel-b .periods{grid-template-columns:repeat(2,minmax(0,1fr))}.shifts{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:640px){
+ .ht-header{padding:14px 16px}
+ main{padding:20px 16px 40px}
+ .periods,.panel-b .periods{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px}
+ .period{flex:0 0 78%;scroll-snap-align:start}
+ .shifts{grid-template-columns:1fr}
+ .stats{gap:20px}
+ .spine{display:none}
+}
+
+/* 星云视图 */
+.star{position:absolute;width:2px;height:2px;border-radius:50%;background:#d7b87d;pointer-events:none}
+.deep-toggle{margin:16px 0 0}.deep-toggle button{background:none;border:1px solid var(--line);color:var(--muted);font-size:11px;padding:7px 12px;cursor:pointer;letter-spacing:1px}.deep-toggle button[aria-pressed=true]{color:#241f18;background:#d7b87d;border-color:#d7b87d}
+.nebula{margin-top:12px;border:1px solid var(--line);background:radial-gradient(ellipse at 42% 46%,#2b241a 0%,#1c1812 62%,#171410 100%);display:grid;grid-template-columns:minmax(0,1fr) 330px;position:relative;overflow:hidden}
+.stagebox{position:relative;min-height:620px}
+.stagebox svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.node{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:6px;background:none;border:0;padding:0;color:inherit;cursor:pointer;transition:opacity .25s}
+.node .orb{width:var(--s);height:var(--s);border-radius:50%;display:flex;align-items:center;justify-content:center;font:normal calc(var(--s)*.32)/1 var(--serif);color:#2b2117;background:radial-gradient(circle at 36% 30%,#f6e7c4,#c69a5f 58%,#6b4a28);box-shadow:0 0 0 1px #d7b87d66,0 0 16px #d7b87d2e;transition:box-shadow .25s,transform .25s}
+.node.up{flex-direction:column-reverse}
+.node .more{font-style:normal;color:#d7b87d;font-size:9px}
+.node .nm{font-size:11px;letter-spacing:.5px;color:#d9cbb4;white-space:nowrap;text-shadow:0 1px 8px #000}
+.node:hover .orb{box-shadow:0 0 0 1px #e9d7b2,0 0 22px #d7b87d55}
+.node.sel .orb{box-shadow:0 0 0 2px #f0dfb8,0 0 0 9px #d7b87d26,0 0 38px #d7b87d66;transform:scale(1.06)}
+.node.sel .nm{color:#f2e4c6}
+.node.dim{opacity:.38}
+.node:focus-visible .orb{outline:2px solid #d7b87d;outline-offset:6px}
+.edge{fill:none;stroke:#d8d0c2;stroke-width:1;opacity:.5}
+.edge.dash{stroke:#d0a05a;stroke-dasharray:5 7;opacity:.72;stroke-width:1.25}
+.edge.dot{stroke:#d0a05a;stroke-dasharray:1.5 6;opacity:.7;stroke-width:1.25}
+.edge.hi{opacity:1;stroke-width:2;stroke:#f4e3bd;filter:drop-shadow(0 0 5px #d7b87d88)}
+.edge-lab{font-size:10px;fill:#d7b87d;paint-order:stroke;stroke:#1c1812;stroke-width:3}
+.dossier{border-left:1px solid var(--line);background:#211c15;padding:20px 20px 24px;min-height:620px;display:flex;flex-direction:column;gap:14px}
+.dossier .dh{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.dossier .kicker{margin:0 0 4px}
+.dossier h3{font:normal 24px/1.3 var(--serif);margin:0;letter-spacing:1px}
+.dossier .sub{font-size:11px;color:var(--muted);margin:4px 0 0}
+.dossier .reset{font-size:10px;border:1px solid var(--line);background:none;color:var(--muted);padding:6px 9px;cursor:pointer;white-space:nowrap}
+.dossier .reset:hover{color:var(--ink)}
+.dl{display:grid;grid-template-columns:66px 1fr;gap:8px 12px;font-size:11.5px;line-height:1.75;margin:0;border-top:1px solid var(--line);padding-top:14px}
+.dl dt{color:var(--muted)}
+.dl dd{margin:0;color:#d9cbb4}
+.dossier .works{margin:0;padding:0;list-style:none;font-size:11.5px;line-height:1.85;color:#c9bda6}
+.dossier .works li{border-top:1px solid var(--line);padding:8px 0}
+.dossier .works strong{display:block;font-weight:400;color:#e6d8bd;font-family:var(--serif);font-size:12.5px}
+.dossier .hint{margin-top:auto;font-size:10.5px;line-height:1.7;color:var(--dim);border-top:1px solid var(--line);padding-top:12px}
+@media(max-width:900px){.nebula-scroll{overflow-x:auto}.stagebox{min-width:640px}.nebula{grid-template-columns:1fr}.dossier{border-left:0;border-top:1px solid var(--line);min-height:0}.stagebox{min-height:520px}}
+
+/* ---- 星云视图 2.0：空间感 ---- */
+.nebula{border-color:#3a3125;background:radial-gradient(ellipse 62% 58% at 44% 46%,#31291d 0%,#241f18 46%,#191510 78%,#14110d 100%);box-shadow:inset 0 0 140px #000000b3,0 1px 0 #ffffff08}
+.nebula:after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 44% 46%,transparent 42%,#0f0d0a 100%);opacity:.65}
+.sky{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.sky i{position:absolute;border-radius:50%;background:#e6d3ad;display:block}
+.sky .l1 i{width:1px;height:1px;opacity:.5}
+.sky .l2 i{width:2px;height:2px;opacity:.35;box-shadow:0 0 6px #e6d3ad88}
+.sky .l3 i{width:3px;height:3px;opacity:.22;box-shadow:0 0 14px #e0c58e66}
+#ring-layer{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
+.ring{fill:none;stroke:#a18b6426;stroke-width:1;stroke-dasharray:1 9}
+.ring-lab{fill:#9a8c76;font-size:9px;letter-spacing:3px}
+#edge-layer{z-index:2}
+#node-layer{z-index:3}
+.node .orb{position:relative;background:radial-gradient(circle at 34% 26%,#fff6de 0%,#e8c891 34%,#b98a4b 66%,#6a4525 100%);box-shadow:inset 0 -7px 16px #00000066,inset 0 2px 4px #fff2,0 0 0 1px #ecd9ad55,0 8px 22px #00000073,0 0 26px #d7b87d1f}
+.node .orb:before{content:"";position:absolute;inset:-6px;border-radius:50%;border:1px solid #d7b87d33}
+.node .nm{max-width:98px;overflow:visible;white-space:normal;text-align:center;line-height:1.3;font-size:9.5px;background:linear-gradient(180deg,#251f18d6,#1a1611e6);border:1px solid #a18b6430;padding:1px 6px;border-radius:2px;backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);color:#e2d3b6}
+.node[data-d="3"] .orb,.node[data-d="4"] .orb{filter:saturate(.86) brightness(.92)}
+.node[data-d="4"]{opacity:.9}
+.node.sel:before{content:"";position:absolute;left:50%;top:calc(var(--s)/2 * -1);width:calc(var(--s) + 30px);height:calc(var(--s) + 30px);margin-left:calc((var(--s) + 30px)/-2);border-radius:50%;border:1px solid #d7b87d55;box-shadow:0 0 30px #d7b87d33 inset;animation:halo 4s ease-in-out infinite;pointer-events:none}
+@keyframes halo{0%,100%{transform:scale(.96);opacity:.5}50%{transform:scale(1.04);opacity:.9}}
+@keyframes ndIn{from{opacity:0;transform:translate(-50%,-50%) scale(.82)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+.edge{stroke:#e9d9ba;stroke-width:1.4;opacity:.72}
+.edge.hi{filter:drop-shadow(0 0 6px #d7b87d99);stroke-width:2;opacity:1;stroke:#f6e6c2}
+.edge-lab{font-size:10px;fill:#e4c894;paint-order:stroke;stroke:#191510;stroke-width:3.5;letter-spacing:1px}
+
+/* 人物节点：金色方框 + 蒙古族角饰，替代球体 */
+.person{position:absolute;transition:left .58s cubic-bezier(.22,1.18,.3,1),top .58s cubic-bezier(.22,1.18,.3,1),border-color .25s,box-shadow .25s,opacity .3s;will-change:left,top;transform:translate(-50%,-50%);min-width:var(--w);max-width:172px;min-height:var(--hh);height:auto;display:flex;align-items:center;justify-content:center;padding:7px 11px;background-color:#1b1610;background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='7' viewBox='0 0 18 7'%3E%3Cpath d='M0 6h3V2h4v4h4V2h4v4h3' fill='none' stroke='%23b3945c' stroke-width='.8' opacity='.55'/%3E%3C/svg%3E");background-repeat:repeat-x;background-size:18px 7px;background-position:top;border:1px solid #b3945c;box-shadow:inset 0 0 0 3px #191410,inset 0 0 0 4px #b3945c4d,0 8px 20px #00000073;cursor:pointer;color:#ecdcbc;font:12px/1.32 var(--serif);letter-spacing:1.2px;text-align:center;z-index:3;transition:border-color .25s,box-shadow .25s,opacity .25s}
+.person:before,.person:after{content:"";position:absolute;width:22px;height:22px;background:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M3 21V9q0-6 6-6h12' fill='none' stroke='%23c9a86a' stroke-width='1.2'/%3E%3Cpath d='M7 19v-7q0-4 4-4h9' fill='none' stroke='%23c9a86a' stroke-width='.85' opacity='.65'/%3E%3C/svg%3E") no-repeat center/contain;opacity:.85;pointer-events:none}
+.person:before{left:3px;top:3px}
+.person:after{right:3px;bottom:3px;transform:rotate(180deg)}
+.person .pname{display:block;flex:1;white-space:normal;word-break:normal;overflow-wrap:anywhere;text-shadow:0 1px 6px #000}
+.person .more{position:absolute;right:7px;bottom:3px;font:normal 9px/1 var(--sans);color:#d7b87d;letter-spacing:0}
+.person.sel{border-color:#f0d7a6;color:#fff6e2;background-color:#2b2217;box-shadow:inset 0 0 0 3px #191410,inset 0 0 0 4px #f0d7a666,0 0 0 3px #d7b87d2e,0 0 34px #d7b87d66}
+.person.sel:before,.person.sel:after{opacity:.9}
+.person.onbranch{border-color:#c8a86e;color:#f5e7c8;box-shadow:inset 0 0 0 3px #191410,inset 0 0 0 4px #c8a86e5e,0 6px 22px #00000073,0 0 16px #d7b87d1f}
+.person.onbranch.sel{box-shadow:inset 0 0 0 3px #191410,inset 0 0 0 4px #f0d7a666,0 0 0 3px #d7b87d33,0 0 34px #d7b87d66}
+.person.dim{opacity:.32}
+.person:hover{border-color:#d9bc86}
+@media(max-width:900px){.person{font-size:12px;letter-spacing:1px}}
+
+@keyframes jelly{0%{transform:translate(-50%,-50%) scale(1,1)}30%{transform:translate(-50%,-50%) scale(1.09,.92)}55%{transform:translate(-50%,-50%) scale(.95,1.06)}78%{transform:translate(-50%,-50%) scale(1.02,.98)}100%{transform:translate(-50%,-50%) scale(1,1)}}
+.person.jelly{animation:jelly .55s cubic-bezier(.3,1.5,.45,1)}
+.person:hover{transform:translate(-50%,-50%) scale(1.03)}
+.person.sel:hover{transform:translate(-50%,-50%) scale(1.03)}
+
+@keyframes branchflow{to{stroke-dashoffset:-60}}
+.edge.lit{stroke:#f5e6c2;stroke-width:1.6;opacity:.95;stroke-dasharray:5 7;animation:branchflow 5s linear infinite;filter:drop-shadow(0 0 5px #d7b87d88)}
+.edge.lit.dash{stroke:#e2b877;stroke-dasharray:3 9}
+
+.single-bar{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin:26px 0 12px}
+.bars-actions{display:flex;gap:8px}
+.bars-actions button{background:none;border:1px solid var(--line);color:var(--muted);font-size:11px;padding:7px 12px;cursor:pointer;letter-spacing:1px}
+.bars-actions button[aria-pressed=true]{color:#241f18;background:#d7b87d;border-color:#d7b87d}
+.nebula.single{grid-template-columns:minmax(0,1fr)}
+.nebula.single .stagebox{min-height:640px}
+@media(max-width:900px){.nebula.single .stagebox{min-width:640px}}
+</style>
+</head>
+<body>
+<header class="ht-header">
+  <a class="brand" href="../index.html#explore"><strong>入账听弦</strong><span>马头琴文化基因展示 · MORIN KHUUR</span></a>
+  <nav aria-label="页面导航"><a href="../heritage-tree.html">传承关系图 ↗</a><a href="../chapters/heritage.html">传承与发展章节 ↗</a><a href="../index.html#explore">返回场域 ↗</a></nav>
+</header>
+<main>
+  <p class="kicker">LINEAGE / PEOPLE &amp; CRAFT</p>
+  <h1>马头琴传承人图谱</h1>
+  <p class="lead">以人为中心的传承谱系：淡金色金框里是完整人名，回纹与犄纹取自蒙古族传统纹样。点任意一位琴师，他这一支会整条亮起——前辈在左、后辈向右依次展开，连线带流光；点别人即可切换分支。</p>
+  <dl class="stats"><div><dt>人物条目</dt><dd>27</dd></div><div><dt>传承世代</dt><dd>5</dd></div><div><dt>师承连线</dt><dd>23</dd></div></dl>
+
+  <div class="single-bar"><p class="legend" aria-label="图例"><span><i class="lg"></i>明载师承</span><span><i class="lg dash"></i>群体承继 / 教学培养</span><span><i class="lg dot"></i>非遗认定</span></p><div class="bars-actions"><button type="button" id="toggleDeep" aria-pressed="false">显示第五代（9 位）</button><button type="button" id="resetsel">回到色拉西</button></div></div>
+  <div class="nebula single">
+    <div class="nebula-scroll"><div class="stagebox" id="stagebox"><div class="sky" id="sky" aria-hidden="true"><div class="l1"></div><div class="l2"></div><div class="l3"></div></div><svg id="ring-layer" aria-hidden="true"></svg><svg id="edge-layer" aria-hidden="true"></svg><div id="node-layer"></div></div></div>
+  </div>
+<p class="source">资料来源：《马头琴演奏传承谱系五期图》《马头琴制作人可考师承骨架图》《马头琴制作技艺传承机制四次转换图》修订版；图注所引文献包括张劲盛 2009、巴特·那日松《传承潮尔制作技艺》、赛吉拉胡 2017、刘婷坤 2020、通拉嘎 2010，以及中国非物质文化遗产网 Ⅱ-35 项目页。人物关系以现有公开资料为限，未收录者不作推断。</p>
+</main>
+<script>
+/* ---------- 星云视图（单层） ---------- */
+window.addEventListener('error',function(e){document.title='ERR: '+e.message+' @'+(e.lineno||'');});
+const PT={
+ selaxi:{n:'色拉西',life:'1887–1968',role:'科尔沁潮尔大师 · 现代马头琴教育鼻祖',gen:'第一代',src:'1962.5.6 收 7 名弟子（张劲盛 2009）'},
+ sangdur:{n:'桑都仍',life:'1924–1967',role:'亲传弟子 · 形制改革主导',gen:'第二代',src:'内蒙古文工团「以团代校」'},
+ aotegen:{n:'敖特根巴雅尔·西日莫',life:'',role:'嫡传弟子 · 内蒙古艺术学校任教',gen:'第二代',src:'内蒙古艺术学校 1957 聘色拉西授潮尔'},
+ baojinshan:{n:'包金山',life:'',role:'第二代传人',gen:'第二代',src:'原站传承图'},
+ baidawa:{n:'白·达瓦',life:'',role:'第二代传人',gen:'第二代',src:'原站传承图'},
+ qblg:{n:'齐·宝力高',life:'',role:'国家级非遗 02-0273 · 乐器改革',gen:'第三代',src:'《万马奔腾》《回想曲》《初升的太阳》'},
+ bulin:{n:'布林（布林巴雅尔）',life:'',role:'国家级非遗 03-0836',gen:'第三代',src:'原站传承图'},
+ bayier:{n:'巴依尔',life:'',role:'第三代大师',gen:'第三代',src:'门下玉龙（哈斯鲁）、郭雪松'},
+ meiliqige:{n:'美利其格等',life:'',role:'第二代传人',gen:'第三代',src:'群体承继'},
+ shibaiyila:{n:'什·白乙拉',life:'',role:'第三代骨干',gen:'第四代',src:'原站传承图'},
+ jirimutu:{n:'吉日穆图',life:'',role:'第三代骨干',gen:'第四代',src:'原站传承图'},
+ buhenasheng:{n:'布和那生',life:'',role:'第三代骨干',gen:'第四代',src:'原站传承图'},
+ nahe:{n:'纳·呼和',life:'',role:'第三代骨干',gen:'第四代',src:'原站传承图'},
+ yulong:{n:'玉龙（哈斯鲁）',life:'',role:'第三代传人',gen:'第四代',src:'原站传承图'},
+ guoxuesong:{n:'郭雪松',life:'',role:'第三代传人',gen:'第四代',src:'原站传承图'},
+ wurigen:{n:'乌日根',life:'',role:'再传弟子',gen:'第五代',src:'原站传承图'},
+ baodi:{n:'包迪',life:'',role:'再传弟子',gen:'第五代',src:'原站传承图'},
+ alaten:{n:'阿拉腾都拉嘎',life:'',role:'再传弟子',gen:'第五代',src:'原站传承图'},
+ menghe:{n:'孟和巴特尔',life:'',role:'再传弟子',gen:'第五代',src:'原站传承图'},
+ wangjinfu:{n:'王金福',life:'',role:'再传弟子',gen:'第五代',src:'原站传承图'},
+ saiyin:{n:'赛音吉雅',life:'',role:'再传弟子',gen:'第五代',src:'原站传承图'},
+ yimin:{n:'伊敏（巴依尔之子）',life:'',role:'再传弟子',gen:'第五代',src:'原站传承图'},
+ chenbayaer:{n:'陈巴雅尔',life:'',role:'再传弟子',gen:'第五代',src:'原站传承图'},
+ libo:{n:'李波等',life:'',role:'再传弟子',gen:'第五代',src:'原站传承图'}
+};
+const LINK=[
+ ['selaxi','sangdur','亲传弟子','solid'],['selaxi','aotegen','嫡传弟子','solid'],['selaxi','baojinshan','弟子','solid'],['selaxi','baidawa','弟子','solid'],
+ ['sangdur','qblg','亲传弟子','solid'],['sangdur','bulin','亲传弟子','solid'],['sangdur','bayier','亲传弟子','solid'],['sangdur','meiliqige','群体承继','dash'],
+ ['qblg','shibaiyila','弟子','solid'],['qblg','jirimutu','弟子','solid'],
+ ['bulin','buhenasheng','弟子','solid'],['bulin','nahe','弟子','solid'],
+ ['bayier','yulong','弟子','solid'],['bayier','guoxuesong','弟子','solid'],
+ ['shibaiyila','wurigen','再传','dash'],['shibaiyila','baodi','再传','dash'],['shibaiyila','alaten','再传','dash'],
+ ['buhenasheng','menghe','再传','dash'],['nahe','wangjinfu','再传','dash'],
+ ['yulong','saiyin','再传','dash'],['yulong','yimin','再传','dash'],
+ ['guoxuesong','chenbayaer','再传','dash'],['guoxuesong','libo','再传','dash']
+];
+
+const kids={},par={};
+LINK.forEach(([a,b,lab,t])=>{(kids[a]=kids[a]||[]).push({id:b,lab,t});(par[b]=par[b]||[]).push({id:a,lab,t});});
+const leaves=id=>kids[id]?kids[id].reduce((n,k)=>n+leaves(k.id),0):1;
+const RADII=[0,215,325,415,485];
+const SZ=d=>[[122,56],[106,48],[98,46],[92,44],[86,42]][Math.min(d,4)];
+function splitName(n){
+ if(n.length<=6)return n;
+ const i=n.indexOf('·');
+ if(i>0&&i<n.length-1)return n.slice(0,i)+'<br>·'+n.slice(i+1);
+ const j=n.indexOf('（');
+ if(j>0)return n.slice(0,j)+'<br>'+n.slice(j);
+ const m=Math.ceil(n.length/2);
+ return n.slice(0,m)+'<br>'+n.slice(m);
+}
+let sel='selaxi',showDeep=false,px=0,py=0;
+function computeLayout(){
+ const out={},maxD=showDeep?4:3;
+ if(sel==='selaxi'){
+  out.selaxi={r:0,d:0,a:0};
+  const list=kids.selaxi||[],n=list.length;
+  const w=k=>0.45*leaves(k.id)/Math.max(leaves('selaxi'),1)+0.55/n;
+  const wsum=list.reduce((a,k)=>a+w(k),0);let start=-90;
+  const sub=(id,d,a0,a1)=>{
+   if(d>maxD)return;const a=(a0+a1)/2;out[id]={r:RADII[Math.min(d,4)],d,a};
+   const ch=kids[id]||[];if(!ch.length||d>=4)return;const step=(a1-a0)/ch.length;
+   ch.forEach((k,i)=>sub(k.id,d+1,a0+i*step,a0+(i+1)*step));
+  };
+  list.forEach(k=>{const span=360*w(k)/wsum;sub(k.id,1,start,start+span);start+=span;});
+  return {mode:'root',nodes:out};
+ }
+ out[sel]={r:0,d:0,a:0};
+ const anc=[];let p=sel;
+ while(par[p]&&par[p][0]){p=par[p][0].id;anc.push(p);}
+ anc.forEach((id,i)=>{const ang=i===1?206:i===2?154:180;out[id]={r:RADII[Math.min(i+1,4)],d:i+1,a:ang};});
+ (function walk(id,d,a0,a1){
+  const list=kids[id]||[];if(!list.length||d>=8)return;
+  const step=(a1-a0)/list.length;
+  list.forEach((k,i)=>{
+   const a=(a0+i*step+a0+(i+1)*step)/2;
+   out[k.id]={r:(d+1)<=4?RADII[d+1]:RADII[4]+(d+1-4)*74,d:d+1,a};
+   walk(k.id,d+1,a0+i*step,a0+(i+1)*step);
+  });
+ })(sel,0,-142,142);
+ return {mode:'focus',nodes:out};
+}
+
+function buildSky(){const sky=document.getElementById('sky');if(!sky||sky.dataset.done)return;sky.dataset.done='1';let seed=11;const rnd=()=>((seed=seed*16807%2147483647)/2147483647);
+ ['l1','l2','l3'].forEach((cls,n)=>{const layer=sky.querySelector('.'+cls);const count=[110,46,20][n];let html='';for(let i=0;i<count;i++){html+='<i style="left:'+(rnd()*100).toFixed(2)+'%;top:'+(rnd()*100).toFixed(2)+'%"></i>';}layer.innerHTML=html;});}
+
+const stage=document.getElementById('stagebox'),svg=document.getElementById('edge-layer'),layer=document.getElementById('node-layer');
+function dims(){const w=stage.clientWidth,h=stage.clientHeight;return {w,h,cx:w*0.5,cy:h*0.5,R:Math.min(w,h)/2-34};}
+function xy(p,D){const k=D.R/485;const rad=p.r*k;return [D.cx+Math.cos(p.a*Math.PI/180)*rad,D.cy+Math.sin(p.a*Math.PI/180)*rad];}
+function buildRings(D,vis){const g=document.getElementById('ring-layer');g.setAttribute('viewBox','0 0 '+D.w+' '+D.h);g.innerHTML='';const names={1:'第二代',2:'第三代',3:'第四代',4:'第五代'};
+ [1,2,3,4].forEach(d=>{if(!vis.has(d))return;const rad=RADII[d]*(D.R/485);const c=document.createElementNS('http://www.w3.org/2000/svg','circle');c.setAttribute('cx',D.cx);c.setAttribute('cy',D.cy);c.setAttribute('r',rad);c.setAttribute('class','ring');g.appendChild(c);
+  const t=document.createElementNS('http://www.w3.org/2000/svg','text');t.setAttribute('x',D.cx-rad*0.72);t.setAttribute('y',D.cy-rad*0.72);t.setAttribute('text-anchor','end');t.setAttribute('class','ring-lab');t.textContent=names[d];g.appendChild(t);});}
+
+function pxLayout(D,L){
+ const nodes=L.nodes,out={};
+ Object.keys(nodes).forEach(id=>{const [x,y]=xy(nodes[id],D);const S=SZ(nodes[id].d);out[id]={x,y,w:S[0],h:S[1],d:nodes[id].d};});
+ const ids=Object.keys(out);
+ for(let it=0;it<44;it++){let moved=false;
+  for(let a=0;a<ids.length;a++)for(let b=a+1;b<ids.length;b++){
+   const A=out[ids[a]],B=out[ids[b]],dx=B.x-A.x,dy=B.y-A.y;
+   const ox=(A.w+B.w)/2+22-Math.abs(dx),oy=(A.h+B.h)/2+20-Math.abs(dy);
+   if(ox>0&&oy>0){if(ox<oy){const p=(dx>=0?1:-1)*ox/2;A.x-=p;B.x+=p;}else{const p=(dy>=0?1:-1)*oy/2;A.y-=p;B.y+=p;}moved=true;}
+  }
+  if(!moved)break;}
+ ids.forEach(id=>{const p=out[id];p.x=Math.max(p.w/2+14,Math.min(D.w-p.w/2-14,p.x));p.y=Math.max(p.h/2+46,Math.min(D.h-p.h/2-58,p.y));});
+ return out;
+}
+
+const prevPos={};
+function render(){
+ buildSky();
+ const L=computeLayout();const nodes=L.nodes,visible=Object.keys(nodes);
+ const need=520+visible.length*26;
+ stage.style.minHeight=Math.max(640,Math.min(1180,need))+'px';
+ const D=dims();
+ svg.setAttribute('viewBox','0 0 '+D.w+' '+D.h);svg.innerHTML='';
+ const P=pxLayout(D,L);
+ buildRings(D,new Set(visible.map(id=>nodes[id].d)));
+ const focus=L.mode==='focus';
+ const cut=(c,w,h,t)=>{const dx=t[0]-c[0],dy=t[1]-c[1];const ax=Math.abs(dx)||1e-6,ay=Math.abs(dy)||1e-6;const k=Math.min((w/2+5)/ax,(h/2+5)/ay);return [c[0]+dx*k,c[1]+dy*k];};
+ LINK.forEach(([a,b,lab,type])=>{
+  if(!P[a]||!P[b])return;
+  const A=P[a],B=P[b];
+  const p1=cut([A.x,A.y],A.w,A.h,[B.x,B.y]),p2=cut([B.x,B.y],B.w,B.h,[A.x,A.y]);
+  const mx=(p1[0]+p2[0])/2,my=(p1[1]+p2[1])/2;
+  const dx=p2[0]-p1[0],dy=p2[1]-p1[1],Lx=Math.hypot(dx,dy)||1;
+  const ox=-dy/Lx*Lx*0.05,oy=dx/Lx*Lx*0.05;
+  const path=document.createElementNS('http://www.w3.org/2000/svg','path');
+  path.setAttribute('d','M'+p1[0]+','+p1[1]+' Q'+(mx+ox)+','+(my+oy)+' '+p2[0]+','+p2[1]);
+  path.setAttribute('class','edge '+(type==='dash'?'dash':type==='dot'?'dot':'')+(focus?' hi lit':((a===sel||b===sel)?' hi':'')));
+  svg.appendChild(path);
+  if(a===sel&&sel!=='selaxi'){const tx=0.35*p1[0]+0.5*(mx+ox)+0.15*p2[0],ty=0.35*p1[1]+0.5*(my+oy)+0.15*p2[1];const t=document.createElementNS('http://www.w3.org/2000/svg','text');t.setAttribute('class','edge-lab');t.setAttribute('x',tx);t.setAttribute('y',ty-4);t.setAttribute('text-anchor','middle');t.textContent=lab;svg.appendChild(t);}
+ });
+ layer.innerHTML='';
+ visible.forEach(id=>{
+  const p=PT[id],n=nodes[id],q=P[id];
+  const btn=document.createElement('button');
+  btn.className='person'+(id===sel?' sel':'')+(focus?' onbranch':'');
+  btn.type='button';
+  btn.style.setProperty('--w',q.w+'px');btn.style.setProperty('--hh',q.h+'px');
+  const old=prevPos[id]||[q.x,q.y];
+  btn.style.left=old[0]+'px';btn.style.top=old[1]+'px';
+  const go=()=>{btn.style.left=q.x+'px';btn.style.top=q.y+'px';};
+  requestAnimationFrame(go);setTimeout(go,0);
+  prevPos[id]=[q.x,q.y];
+  btn.dataset.d=n.d;btn.dataset.id=id;btn.setAttribute('aria-pressed',String(id===sel));
+  const hid=(kids[id]||[]).filter(k=>!P[k.id]&&k.id!==sel).length;
+  btn.innerHTML='<span class="pname">'+splitName(p.n)+'</span>'+(hid&&!showDeep?'<em class="more">+'+hid+'</em>':'');
+  btn.title=p.n+(p.life?'（'+p.life+'）':'')+' · '+p.role;
+  if(id===sel){btn.classList.add('jelly');btn.style.zIndex='5';}
+  btn.onclick=()=>{sel=id;render();};
+  layer.appendChild(btn);
+ });
+ const tb=document.getElementById('toggleDeep');
+ if(tb){tb.setAttribute('aria-pressed',String(showDeep));tb.textContent=showDeep?'收起第五代':'显示第五代（9 位）';tb.onclick=()=>{showDeep=!showDeep;render();};}
+ const rs=document.getElementById('resetsel');if(rs)rs.onclick=()=>{sel='selaxi';showDeep=false;render();};
+ const sc=document.querySelector('.nebula-scroll');if(sc&&sc.scrollWidth>sc.clientWidth+4)sc.scrollLeft=(sc.scrollWidth-sc.clientWidth)/2;
+}
+function parallax(e){const r=stage.getBoundingClientRect();px=(e.clientX-r.left)/r.width-.5;py=(e.clientY-r.top)/r.height-.5;const sky=document.getElementById('sky');if(!sky)return;sky.querySelector('.l1').style.transform='translate('+(-px*6)+'px,'+(-py*6)+'px)';sky.querySelector('.l2').style.transform='translate('+(-px*12)+'px,'+(-py*12)+'px)';sky.querySelector('.l3').style.transform='translate('+(-px*20)+'px,'+(-py*20)+'px)';}
+stage.addEventListener('mousemove',parallax);
+stage.addEventListener('mouseleave',()=>{['l1','l2','l3'].forEach(c=>{const el=document.querySelector('#sky .'+c);if(el)el.style.transform='translate(0,0)';});});
+window.addEventListener('resize',()=>render());
+render();
+
+</script>
+</body>
+</html>

@@ -1,1 +1,17 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 60"><defs><linearGradient id="w"><stop stop-color="#4f2715"/><stop offset=".5" stop-color="#c99b60"/><stop offset="1" stop-color="#57301e"/></linearGradient></defs><path d="M15 33Q285 4 578 25L586 37" fill="none" stroke="url(#w)" stroke-width="8" stroke-linecap="round"/><path d="M38 40L579 38" stroke="#eee0bb" stroke-width="4"/><rect x="17" y="29" width="38" height="16" rx="3" fill="#332b24"/><path d="M17 31L15 44M54 29L54 43" stroke="#c8b487" stroke-width="3"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 64" role="img" aria-label="马头琴琴弓">
+  <defs>
+    <linearGradient id="wood" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#8a5a2d"/><stop offset=".5" stop-color="#5d3618"/><stop offset="1" stop-color="#3a2111"/>
+    </linearGradient>
+    <linearGradient id="hair" x1="0" y1="0" x2="1" y2="0">
+      <stop stop-color="#efe6cf"/><stop offset=".5" stop-color="#fffaf0"/><stop offset="1" stop-color="#e2d3b4"/>
+    </linearGradient>
+  </defs>
+  <path d="M10 36 Q450 6 890 26 L890 33 Q450 14 10 44 Z" fill="url(#wood)"/>
+  <path d="M14 34 Q450 4 886 24" fill="none" stroke="#c69a5f" stroke-width="1.6" opacity=".55"/>
+  <path d="M40 47 L872 37" stroke="url(#hair)" stroke-width="3" stroke-linecap="round" opacity=".92"/>
+  <rect x="12" y="29" width="40" height="18" rx="3.5" fill="#241a12"/>
+  <rect x="18" y="31" width="4" height="14" fill="#c9ae80" opacity=".8"/>
+  <rect x="44" y="31" width="4" height="13" fill="#c9ae80" opacity=".7"/>
+  <path d="M884 22 l8 4 l-8 4 z" fill="#2c2119"/>
+</svg>
